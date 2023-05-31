@@ -1,0 +1,103 @@
+<template>
+  <!-- Main section start -->
+  <section class="h-screen px-12 lg:px-32 py-32 mb-8">
+    <div class="w-full md:w-1/2 h-full flex flex-col md:justify-center">
+      <!-- Main text start -->
+      <h1 class="uppercase text-5xl xl:text-7xl mb-4 font-semibold">
+        CAPTURING BEAUTY PHOTO
+      </h1>
+      <p class="capitalize xl:w-1/2 text-stone-500">
+        Preserving life's candid moments - that's our passion at our
+        photography. Let us capture the beauty of your story
+      </p>
+      <!-- Main text end -->
+
+      <!-- Social links start -->
+      <div class="flex mt-3 gap-8">
+        <a href="#">
+          <i class="fa-brands fa-instagram socialIcon"></i>
+        </a>
+        <a href="#">
+          <i class="fa-brands fa-linkedin socialIcon"></i>
+        </a>
+        <a href="#">
+          <i class="fa-brands fa-facebook socialIcon"></i>
+        </a>
+        <a href="#">
+          <i class="fa-brands fa-tiktok socialIcon"></i>
+        </a>
+        <a href="#">
+          <i class="fa-brands fa-pinterest socialIcon"></i>
+        </a>
+      </div>
+      <!-- Social links end -->
+    </div>
+
+    <!-- Photographer image start -->
+    <div
+      class="absolute bottom-0 right-0 overflow-hidden h-2/5 sm:h-1/2 md:h-3/5 lg:h-4/6 -z-50"
+    >
+      <img :src="'http://127.0.0.1:8000/storage/'+ listgambar.gambar" alt="img" class="h-full" />
+    </div>
+
+    <!-- Photographer image end -->
+
+    <!-- "More" button start -->
+    <div class="w-full h-20 flex justify-start md:justify-center items-center">
+      <a href="#about-section">
+        <i
+          class="fa-solid fa-arrow-down transition text-stone-100 text-xl bg-stone-700 rounded-full shadow p-4 hover:-translate-y-2 hover:shadow-xl"
+        ></i>
+      </a>
+    </div>
+    <!-- "More" button end -->
+  </section>
+  <!-- Main section end -->
+</template>
+
+<script>
+import axios from "axios";
+
+export default {
+  name: "MainSection",
+
+  data() {
+    return {
+      listgambar: [],
+      response: {},
+    };
+  },
+
+  methods: {
+    // fungsi utk mengeset data yg didapatkan dari API
+    setData(dataAPI) {
+      // mengubah isi variabel listhotel, yg tadinya kosong jd ada isinya (data response dari API)
+      this.listgambar = dataAPI;
+    },
+
+    // fungsi untuk request ke API
+    async getListGambar() {
+      try {
+        // isikan variabel response yg ada di data tadi dengan request API
+
+        this.response = await axios.get(
+          "http://127.0.0.1:8000/api/list-assets"
+        );
+
+        console.log(this.response.data);
+
+        // panggil function setData(dataAPI)
+        this.setData(this.response.data.Assets);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  mounted() {
+    this.getListGambar();
+  },
+};
+</script>
+
+<style>
+</style>
